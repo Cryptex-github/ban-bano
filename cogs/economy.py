@@ -39,7 +39,7 @@ class economy(commands.Cog):
         with open("bank.json", "r") as f:
             users = json.load(f)
             bal = users[str(author.id)][type_]
-            bal += amount
+            bal += int(amount)
             users[str(author.id)][type_] = bal
             with open("bank.json", "w") as f:
                 json.dump(users, f, indent=4)
