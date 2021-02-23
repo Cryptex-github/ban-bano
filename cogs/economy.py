@@ -8,6 +8,11 @@ class economy(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+    @commands.Cog.listener()
+    async def on_command_error(self, ctx, error):
+        embed=discord.Embed(color=0xFF0000, title="An error occured", description=error)
+        return await ctx.send(embed=embed)
+
     @asyncexe()
     def confirm(self, author):
         with open("bank.json", "r") as f:
@@ -58,7 +63,7 @@ class economy(commands.Cog):
         wallet, bank = await self.bal_(user or ctx.author)
         if bank == None:
             return await ctx.send("u don't even have a bank account run `open` to open one")
-        await ctx.send(embed=discord.Embed(description=f"Wallet: {wallet}\nBank: {bank}"))
+        await ctx.send(embed=discord.Embed(color=0x00ff6a, description=f"Wallet: {wallet}\nBank: {bank}"))
 
     @commands.command()
     @commands.cooldown(1, 30, commands.BucketType.user)
