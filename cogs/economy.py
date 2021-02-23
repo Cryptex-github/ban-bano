@@ -14,6 +14,7 @@ class economy(commands.Cog):
             if str(author.id) in users:
                 return True
             else:
+                users[str(author.id)] = {}
                 users[str(author.id)]["wallet"] = 0
                 users[str(author.id)]["bank"] = 0
                 with open("bank.json", "w") as f:
