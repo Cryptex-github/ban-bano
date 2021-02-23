@@ -27,11 +27,13 @@ class economy(commands.Cog):
             if str(author.id) in users:
                 return users[str(author.id)]["wallet"], users[str(author.id)]["bank"]
             else:
-                return False
+                return False, False
 
     @commands.command()
     async def bal(self, ctx, user:discord.Member=None):
         wallet, bank = await self.bal_(user or ctx.author)
+        if bank == False:
+            return await ctx.send("u don't even have a bank account run `open` to open one")
         await ctx.send(embed=discord.Embed(description=f"Wallet: {wallet}\nBank: {bank}"))
 
     @commands.command()
