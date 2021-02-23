@@ -67,6 +67,7 @@ class economy(commands.Cog):
             wallet, bank = await self.bal_(ctx.author)
             await self.change_(ctx.author, "wallet", -1*wallet)
             await self.change_(ctx.author, "bank", wallet)
+            return await ctx.send("Success")
         else:
             wallet, bank = await self.bal_(ctx.author)
             if amount > wallet:
