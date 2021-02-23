@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 from utils.asyncstuff import asyncexe
+import random
 import json
 
 class economy(commands.Cog):
@@ -60,6 +61,13 @@ class economy(commands.Cog):
         await ctx.send(embed=discord.Embed(description=f"Wallet: {wallet}\nBank: {bank}"))
 
     @commands.command()
+    @commands.cooldown(1, 30, commands.BucketType.user)
+    async def beg(self, ctx):
+        amount = random.randint(0, 1000)
+        await self.change_(ctx.author, "wallet", amount)
+        await ctx.send(f"Me just gib you {amount} dollars")
+
+    @commands.command()
     async def open(self, ctx):
         o = await self.open_(ctx.author)
         if o:
@@ -67,6 +75,7 @@ class economy(commands.Cog):
         await ctx.send(f"Succefully opened bank account {ctx.author.id}")
     
     @commands.command()
+    @commands.is_owner()
     async def change(self, ctx, user:discord.Member, amount):
         if not await self.confirm(user):
             return await ctx.send(f"{user} don't have a account")
