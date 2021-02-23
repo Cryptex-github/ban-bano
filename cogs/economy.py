@@ -8,6 +8,14 @@ class economy(commands.Cog):
         self.bot = bot
 
     @asyncexe()
+    def confirm(self, author):
+        with open("bank.json", "r") as f:
+            users = json.load(f)
+            if str(author.id) in users:
+                return True
+            else:
+                return False
+    @asyncexe()
     def open_(self, author):
         with open("bank.json", "r") as f:
             users = json.load(f)
@@ -19,6 +27,21 @@ class economy(commands.Cog):
                 users[str(author.id)]["bank"] = 0
                 with open("bank.json", "w") as f:
                     json.dump(users, f, indent=4)
+
+    @asyncexe()
+    def change_(self, author, type_:str="wallet", amount:int=0):
+        with open("bank.json", "r") as f:
+            users = json.load(f)
+            bal = users[str(author.id)][type_]
+            bal += amount
+            users[str(author.id)][type_] = bal
+            with open("bank.json", "w") as f:
+                json.dump(users, f, indent=4)
+                return True
+
+
+
+
 
     @asyncexe()
     def bal_(self, author):
@@ -42,6 +65,14 @@ class economy(commands.Cog):
         if o:
             return await ctx.send("you already have a bank account")
         await ctx.send(f"Succefully opened bank account {ctx.author.id}")
+    
+    @commands.command()
+    async def change(self, ctx, user:discord.Member, amount):
+        if not await self.confirm(user):
+            return await ctx.send(f"{user} don't have a account")
+        await self.change_(user, "wallet", amount)
+        wallet, bank = await self.bal_(user)
+        return await ctx.send(f"Success, the user's balance is now \n wallet: {wallet}\n bank: {bank}")
     
 
 
