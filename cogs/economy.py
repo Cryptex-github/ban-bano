@@ -65,8 +65,8 @@ class economy(commands.Cog):
             return await ctx.send(f"{ctx.author} don't have a account")
         if amount == "all":
             wallet, bank = await self.bal_(ctx.author)
-            await self.change_(ctx.author, "wallet", wallet)
-            await self.change_(ctx.author, "bank", -1*wallet)
+            await self.change_(ctx.author, "wallet", bank)
+            await self.change_(ctx.author, "bank", -1*bank)
             return await ctx.send("Success")
         else:
             wallet, bank = await self.bal_(ctx.author)
