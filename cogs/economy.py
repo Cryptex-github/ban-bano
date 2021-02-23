@@ -10,7 +10,7 @@ class economy(commands.Cog):
 
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
-        embed=discord.Embed(color=0xFF0000, title="An error occured", description=error)
+        embed=discord.Embed(color=0xFF0000, title="An error occured", description=str(error))
         return await ctx.send(embed=embed)
 
     @asyncexe()
