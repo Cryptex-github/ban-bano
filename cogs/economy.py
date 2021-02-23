@@ -58,6 +58,30 @@ class economy(commands.Cog):
             else:
                 return None, None
 
+
+    @commands.command()
+    async def dep(self, ctx, amount:str="all"):
+        if not await self.confirm(ctx.author):
+            return await ctx.send(f"{ctx.author} don't have a account")
+        if amount == "all":
+            wallet, bank = await self.bal_(ctx.author)
+            await self.change_(ctx.author, "wallet", -1*wallet)
+            await self.change_(ctx.author, "bank", wallet)
+        else:
+            wallet, bank = await self.bal_(ctx.author)
+            if amount > wallet:
+                return await ctx.send("you don't have that much money")
+            if amount <= 0:
+                return await ctx.send("can deposit negative or zero")
+            await self.change_(ctx.author, "wallet", -1*int(amount))
+            await self.change_(ctx.author, "wallet", int(amount))
+            return await ctx.send("Success")
+
+
+
+
+        
+
     @commands.command()
     async def bal(self, ctx, user:discord.Member=None):
         wallet, bank = await self.bal_(user or ctx.author)
