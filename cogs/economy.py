@@ -60,6 +60,24 @@ class economy(commands.Cog):
 
 
     @commands.command()
+    async def withdraw(self, ctx, amount:str="all"):
+        if not await self.confirm(ctx.author):
+            return await ctx.send(f"{ctx.author} don't have a account")
+        if amount == "all":
+            wallet, bank = await self.bal_(ctx.author)
+            await self.change_(ctx.author, "wallet", wallet)
+            await self.change_(ctx.author, "bank", -1*wallet)
+            return await ctx.send("Success")
+        else:
+            wallet, bank = await self.bal_(ctx.author)
+            if amount > bank:
+                return await ctx.send("you don't have that much money")
+            if amount <= 0:
+                return await ctx.send("can deposit negative or zero")
+            await self.change_(ctx.author, "wallet", int(amount))
+            await self.change_(ctx.author, "bank", -1*int(amount))
+            return await ctx.send("Success")
+    @commands.command()
     async def dep(self, ctx, amount:str="all"):
         if not await self.confirm(ctx.author):
             return await ctx.send(f"{ctx.author} don't have a account")
@@ -75,7 +93,7 @@ class economy(commands.Cog):
             if amount <= 0:
                 return await ctx.send("can deposit negative or zero")
             await self.change_(ctx.author, "wallet", -1*int(amount))
-            await self.change_(ctx.author, "wallet", int(amount))
+            await self.change_(ctx.author, "bank", int(amount))
             return await ctx.send("Success")
 
 
