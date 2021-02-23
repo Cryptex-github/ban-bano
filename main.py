@@ -5,7 +5,7 @@ import os
 TOKEN = os.getenv("TOKEN")
 
 intents = discord.Intents.all()
-bot = BanBano(command_prefix=(".", ";"), intents=intents)
+bot = BanBano(command_prefix=(".", ";"), intents=intents, help_command=commands.MinimalHelpCommand())
 
 for file in os.listdir("./cogs"):
     if file.endswith(".py"):
